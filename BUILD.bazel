@@ -1,0 +1,26 @@
+load("@aspect_gazelle_prebuilt//:def.bzl", "aspect_gazelle")
+load("@rules_multirun//:defs.bzl", "command", "multirun")
+
+# gazelle:map_kind py_library py_library @aspect_rules_py//py:defs.bzl
+# gazelle:map_kind py_binary py_binary @aspect_rules_py//py:defs.bzl
+# gazelle:map_kind py_test py_test @aspect_rules_py//py:defs.bzl
+# gazelle:python_library_naming_convention $package_name$_py_lib
+# gazelle:python_binary_naming_convention $package_name$
+
+aspect_gazelle(
+    name = "gazelle",
+    languages = ["python"],
+)
+
+command(
+    name = "command-that-fails",
+    command = "//foo",
+)
+
+command(
+    name = "command-that-works",
+    command = "//foo",
+    environment = {
+        "RUNFILES_MANIFEST_FILE": ""
+    }
+)
